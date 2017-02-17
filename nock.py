@@ -169,3 +169,15 @@ class FunctionComposition(Rule):
 
 rules.append(FunctionComposition())
 
+
+class VariableDeclaration(Rule):
+    op = 8
+
+    def eval(self, expr):
+        a, [_, [b, c]] = expr
+        return nock([a, 7, [[7, [0, 1], b], 0, 1], c])
+
+rules.append(VariableDeclaration())
+
+
+
