@@ -12,6 +12,7 @@ def right_assoc(cell):
 
 
 def get_subtree_at_index(index, tree):
+    print(index, tree)
     L = object()
     R = object()
 
@@ -58,11 +59,30 @@ class Rule:
         if not isinstance(expr, list):
             return False
 
-        op_subtree = get_subtree_at_index(6, expr)
+        try:
+            op_subtree = get_subtree_at_index(6, expr)
+        except Exception:
+             return False
+
         return isinstance(op_subtree, int) and op_subtree == self.op
 
     def eval(self, expr):
         raise NotImplementedError()
+
+
+class FormulaPair(Rule):
+    def match(self, expr):
+        try:
+            a, [[b, c], d] = expr
+            return True
+        except:
+            return False
+
+    def eval(self, expr):
+        a, [[b, c], d] = expr
+        return [nock([a, b, c]), nock([a, d])]
+
+rules.append(FormulaPair())
 
 
 class SubTree(Rule):
@@ -120,10 +140,24 @@ rules.append(Increment())
 class Equal(Rule):
     op = 5
 
-    def match(self, expr):
+    def eval(self, expr):
         a, [_, b] = expr
         result = nock([a, b])
         assert len(result) == 2, result
         return 0 if result[0] == result[1] else 1
 
 rules.append(Equal())
+
+
+class If(Rule):
+    op = 6
+
+    def eval(self, expr):
+        a, [_, [b, [c, d]]] = expr
+        return nock(
+            [a, 2, [0, 1], 2, [1, c, d], [1, 0], 2, [1, 2, 3], [1, 0], 4, 4, b])
+
+rules.append(If())
+
+
+
