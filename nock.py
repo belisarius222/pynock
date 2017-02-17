@@ -160,4 +160,12 @@ class If(Rule):
 rules.append(If())
 
 
+class FunctionComposition(Rule):
+    op = 7
+
+    def eval(self, expr):
+        a, [_, [b, c]] = expr
+        return nock([a, 2, b, 1, c])
+
+rules.append(FunctionComposition())
 
