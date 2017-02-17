@@ -48,9 +48,12 @@ def test_nock():
         ([42, [[4, 0, 1], [3, 0, 1]]], [43, 1]),
         ([42, [7, [4, 0, 1], [4, 0, 1]]], 44),
         ([42, [8, [4, 0, 1], [0, 1]]], [43, 42]),
+        ([42, [6, [1, 0], [4, 0, 1], [1, 233]]], 43),
     )
 
+    print()
     for expr, expected in cases:
+        print(expr)
         actual = nock.nock(expr)
         nose.tools.assert_equals(actual, expected)
-
+        print()

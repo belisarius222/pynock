@@ -12,7 +12,6 @@ def right_assoc(cell):
 
 
 def get_subtree_at_index(index, tree):
-    print(index, tree)
     L = object()
     R = object()
 
@@ -43,8 +42,12 @@ def nock(expr):
     while isinstance(ret, list):
         for rule in rules:
             if rule.match(ret):
-                print(rule.__class__.__name__ + " match", ret)
+                old = copy.deepcopy(ret)
                 ret = rule.eval(ret)
+
+                print("{!s:<12} {!s:<64} {!s:<50}".format(
+                    rule.__class__.__name__, old, ret))
+
                 break
 
         return ret
@@ -90,7 +93,6 @@ class SubTree(Rule):
 
     def eval(self, expr):
         a, [_, b] = expr
-        print('a', a, 'b', b)
         return get_subtree_at_index(b, a)
 
 rules.append(SubTree())
@@ -160,24 +162,24 @@ class If(Rule):
 rules.append(If())
 
 
-class FunctionComposition(Rule):
+class ComposeFuncs(Rule):
     op = 7
 
     def eval(self, expr):
         a, [_, [b, c]] = expr
         return nock([a, 2, b, 1, c])
 
-rules.append(FunctionComposition())
+rules.append(ComposeFuncs())
 
 
-class VariableDeclaration(Rule):
+class DeclareVar(Rule):
     op = 8
 
     def eval(self, expr):
         a, [_, [b, c]] = expr
         return nock([a, 7, [[7, [0, 1], b], 0, 1], c])
 
-rules.append(VariableDeclaration())
+rules.append(DeclareVar())
 
 
 
