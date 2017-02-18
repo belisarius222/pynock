@@ -45,9 +45,6 @@ def nock(expr):
                 old = copy.deepcopy(ret)
                 ret = rule.eval(ret)
 
-                print("{!s:<12} {!s:<64} {!s:<50}".format(
-                    rule.__class__.__name__, old, ret))
-
                 break
 
         return ret

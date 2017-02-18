@@ -4,11 +4,6 @@ import nock
 
 
 def test_right_assoc():
-    nose.tools.assert_equals(nock.right_assoc([0, 1]), [0, 1])
-    nose.tools.assert_equals(nock.right_assoc([0, 1, 2]), [0, [1, 2]])
-    nose.tools.assert_equals(nock.right_assoc([0, [1, 2]]), [0, [1, 2]])
-    nose.tools.assert_equals(nock.right_assoc([[0, 1], 2]), [[0, 1], 2])
-
     cases = (
         ([0, 1], [0, 1]),
         ([0, 1, 2], [0, [1, 2]]),
