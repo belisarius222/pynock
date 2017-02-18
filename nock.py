@@ -182,4 +182,25 @@ class DeclareVar(Rule):
 rules.append(DeclareVar())
 
 
+class FireArm(Rule):
+    op = 9
 
+    def eval(self, expr):
+        a, [_, [b, c]] = expr
+        return nock([a, 7, c, [2, [0, 1], [0, b]]])
+
+rules.append(FireArm())
+
+
+class Hint(Rule):
+    op = 10
+
+    def eval(self, expr):
+        a, [_, [b, c]] = expr
+
+        if isinstance(b, list):
+            a, [_, [b, c], d] = expr
+            return nock([a, 8, c, 7, [0, 2], d])
+
+        else:
+            return nock([a, c])
